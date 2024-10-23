@@ -5,6 +5,8 @@
 #include <fstream>
 using namespace std;
 
+//TP1
+
 // Funções de receber entrada
 
 vector<vector<bool>> txt_to_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
@@ -48,25 +50,29 @@ double BFS_tree_matrix_with_execution_time(const vector<vector<bool>>& matrix, i
 
 // TP2:
 
-vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
+// Funções de receber entrada
 
+vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
 vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
 
+// Funções para percorrer o grafo (vetor de adjacência):
 
 vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& graph, int origem);
 vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph, int origem);
+void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int origem, int destino);
+
+// Funções para percorrer o grafo (matriz de adjacência):
 
 vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int origem);
 vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int origem);
-void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int origem, int destino);
 void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int destino);
 
-double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem);
+// Contabilizando o tempo:
 
+double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem);
 double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem);
 
 double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& matrix, int origem);
-
 double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& matrix, int origem);
 
 #endif
