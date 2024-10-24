@@ -770,59 +770,6 @@ void Distancia_matrix(const vector<vector<bool>>& matrix, int origem, int destin
 
 // TP2:
 
-
-vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt") {
-
-    ifstream arquivo(nome_arquivo);
-    if (!arquivo.is_open()) {
-        throw runtime_error("Erro ao abrir o arquivo de entrada!");
-    }
-
-    int numVertices, numArestas, u, v, degreeSum;
-    float w;
-    int INF = 1e9;
-    bool Dijkstra = true;
-
-    // Ler o número de vértices
-    arquivo >> numVertices;
-
-    
-    vector<vector<float>> matrix(numVertices + 1, vector<float>(numVertices + 1, INF)); 
-
-    while (arquivo >> u >> v >> w) {
-        if(w < 0) {
-            Dijkstra = false;
-        }
-        matrix[u][v] = w;  
-        matrix[v][u] = w; 
-
-    }
-
-    arquivo.close();
-
-    // Gravar os resultados no arquivo de saída
-    
-    ofstream arquivo_de_saida(nome_do_arquivo_de_saida_principal, std::ios::app);
-
-    if (arquivo_de_saida.is_open()) {
-        arquivo_de_saida << "Número de vértices: " << numVertices << endl;
-        arquivo_de_saida << "Número de arestas: " << numArestas << endl;
-
-        arquivo_de_saida.close(); 
-        cout << "Resultados gravados no arquivo " << nome_do_arquivo_de_saida_principal << endl;
-    } 
-    else {
-        cout << "Erro ao abrir o arquivo de resultados!" << endl;
-    }
-
-
-    arquivo_de_saida.close();
-
-    return matrix;
-}
-
-
-
 vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt") {
 
     ifstream arquivo(nome_arquivo);
@@ -937,50 +884,14 @@ vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph,
 
 }
 
-vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int origem) {
-    float INF = 1e9;
-    int n = matrix.size();
-    vector<float> dist(n, INF);
-    vector<bool> visitado(n, false);
 
-    dist[origem] = 0;
+double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
 
-    // Fila de prioridade (min-heap) para armazenar {distância, vértice}
-    priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
-    
-    fila.push({0, origem});
+    using namespace std::chrono;
+    auto inicio = high_resolution_clock::now();
 
-    while (!fila.empty()) {
-        int u = fila.top().second;
-        float dist_u = fila.top().first;
-        fila.pop();
-
-        // Se já visitamos este vértice, continuamos
-        if (visitado[u]) continue;
-        visitado[u] = true;
-
-        // Percorrer todos os possíveis vizinhos de 'u'
-        for (int v = 0; v < n; ++v) {
-            float peso = matrix[u][v];
-            
-            // Ignorar se não houver aresta (representada por INF)
-            if (peso == INF || u == v) continue;
-
-            // Relaxamento da aresta u -> v
-            if (dist[u] + peso < dist[v]) {
-                dist[v] = dist[u] + peso;
-                fila.push({dist[v], v});
-            }
-        }
-    }
-
-    return dist;
-}
-
-vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int origem) {
-    
     int INF = 1e9;
-    int n = matrix.size();
+    int n = graph.size();
     vector<float> dist(n, INF); // Vetor de distâncias parciais
     vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
 
@@ -995,21 +906,74 @@ vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int or
             }
         }
 
-        // Se não há mais vértices alcançáveis, termina
         if (dist[u] == INF) break;
 
         visitado[u] = true;
 
-        // Atualiza as distâncias dos vizinhos de u
-        for (int v = 0; v < n; ++v) {
-            float peso = matrix[u][v];
-            if (peso > 0 && !visitado[v] && dist[u] + peso < dist[v]) {
+        // Atualiza as distâncias dos vizinhos
+        for (const auto& vizinho : graph[u]) {
+            int v = vizinho.first;
+            float peso = vizinho.second;
+
+            if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
             }
         }
     }
 
-    return dist;
+    auto fim = high_resolution_clock::now(); // fim do algoritmo
+
+    duration<double> tempo_execucao = fim - inicio;
+    
+    return tempo_execucao.count();
+}
+
+
+
+double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
+
+    using namespace std::chrono;
+    auto inicio = high_resolution_clock::now();
+
+    int INF = 1e9;
+    int n = graph.size();
+    vector<float> dist(n, INF);
+    vector<bool> visitado(n, false); 
+
+    dist[origem] = 0;
+
+    priority_queue<pair<int, float>, vector<pair<int, float>>, greater<pair<int, float>>> fila;
+    
+    fila.push({origem, 0});
+
+    while (!fila.empty()) {
+        int u = fila.top().first;
+        float dist_u = fila.top().second;
+        fila.pop();
+
+        // Se já visitamos este vértice, continuamos
+        if (visitado[u]) continue;
+        visitado[u] = true;
+
+        // Para cada vizinho v de u
+        for (auto& vizinho : graph[u]) {
+            int v = vizinho.first;
+            float peso = vizinho.second;
+
+            // Relaxamento da aresta u -> v
+            if (dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+                fila.push({v, dist[v] });
+            }
+        }
+    }
+
+    auto fim = high_resolution_clock::now(); // fim do algoritmo
+
+    duration<double> tempo_execucao = fim - inicio;
+
+    return tempo_execucao.count();
+
 }
 
 
@@ -1063,6 +1027,223 @@ void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int or
     cout << "Custo do caminho: " << dist[destino] << "\n" << endl;
 }
 
+
+vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt") {
+
+    ifstream arquivo(nome_arquivo);
+    if (!arquivo.is_open()) {
+        throw runtime_error("Erro ao abrir o arquivo de entrada!");
+    }
+
+    int numVertices, numArestas, u, v, degreeSum;
+    float w;
+    int INF = 1e9;
+    bool Dijkstra = true;
+
+    // Ler o número de vértices
+    arquivo >> numVertices;
+
+    
+    vector<vector<float>> matrix(numVertices + 1, vector<float>(numVertices + 1, INF)); 
+
+    while (arquivo >> u >> v >> w) {
+        if(w < 0) {
+            Dijkstra = false;
+        }
+        matrix[u][v] = w;  
+        matrix[v][u] = w; 
+
+    }
+
+    arquivo.close();
+
+    // Gravar os resultados no arquivo de saída
+    
+    ofstream arquivo_de_saida(nome_do_arquivo_de_saida_principal, std::ios::app);
+
+    if (arquivo_de_saida.is_open()) {
+        arquivo_de_saida << "Número de vértices: " << numVertices << endl;
+        arquivo_de_saida << "Número de arestas: " << numArestas << endl;
+
+        arquivo_de_saida.close(); 
+        cout << "Resultados gravados no arquivo " << nome_do_arquivo_de_saida_principal << endl;
+    } 
+    else {
+        cout << "Erro ao abrir o arquivo de resultados!" << endl;
+    }
+
+
+    arquivo_de_saida.close();
+
+    return matrix;
+}
+
+vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int origem) {
+    
+    int INF = 1e9;
+    int n = matrix.size();
+    vector<float> dist(n, INF); // Vetor de distâncias parciais
+    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+
+    dist[origem] = 0; // Distância da origem é zero
+
+    for (int i = 0; i < n; ++i) {
+        // Encontrar o vértice não visitado com a menor distância
+        int u = -1;
+        for (int j = 0; j < n; ++j) {
+            if (!visitado[j] && (u == -1 || dist[j] < dist[u])) {
+                u = j;
+            }
+        }
+
+        // Se não há mais vértices alcançáveis, termina
+        if (dist[u] == INF) break;
+
+        visitado[u] = true;
+
+        // Atualiza as distâncias dos vizinhos de u
+        for (int v = 0; v < n; ++v) {
+            float peso = matrix[u][v];
+            if (peso > 0 && !visitado[v] && dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+            }
+        }
+    }
+
+    return dist;
+}
+
+
+vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int origem) {
+    float INF = 1e9;
+    int n = matrix.size();
+    vector<float> dist(n, INF);
+    vector<bool> visitado(n, false);
+
+    dist[origem] = 0;
+
+    // Fila de prioridade (min-heap) para armazenar {distância, vértice}
+    priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
+    
+    fila.push({0, origem});
+
+    while (!fila.empty()) {
+        int u = fila.top().second;
+        float dist_u = fila.top().first;
+        fila.pop();
+
+        // Se já visitamos este vértice, continuamos
+        if (visitado[u]) continue;
+        visitado[u] = true;
+
+        // Percorrer todos os possíveis vizinhos de 'u'
+        for (int v = 0; v < n; ++v) {
+            float peso = matrix[u][v];
+            
+            // Ignorar se não houver aresta (representada por INF)
+            if (peso == INF || u == v) continue;
+
+            // Relaxamento da aresta u -> v
+            if (dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+                fila.push({dist[v], v});
+            }
+        }
+    }
+
+    return dist;
+}
+
+double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
+
+    using namespace std::chrono;
+    auto inicio = high_resolution_clock::now();
+    
+    int INF = 1e9;
+    int n = matrix.size();
+    vector<float> dist(n, INF); // Vetor de distâncias parciais
+    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+
+    dist[origem] = 0; // Distância da origem é zero
+
+    for (int i = 0; i < n; ++i) {
+        // Encontrar o vértice não visitado com a menor distância
+        int u = -1;
+        for (int j = 0; j < n; ++j) {
+            if (!visitado[j] && (u == -1 || dist[j] < dist[u])) {
+                u = j;
+            }
+        }
+
+        // Se não há mais vértices alcançáveis, termina
+        if (dist[u] == INF) break;
+
+        visitado[u] = true;
+
+        // Atualiza as distâncias dos vizinhos de u
+        for (int v = 0; v < n; ++v) {
+            float peso = matrix[u][v];
+            if (peso > 0 && !visitado[v] && dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+            }
+        }
+    }
+
+    auto fim = high_resolution_clock::now(); // fim do algoritmo
+
+    duration<double> tempo_execucao = fim - inicio;
+
+    return tempo_execucao.count();
+}
+
+
+double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
+
+    using namespace std::chrono;
+    auto inicio = high_resolution_clock::now();
+
+    float INF = 1e9;
+    int n = matrix.size();
+    vector<float> dist(n, INF);
+    vector<bool> visitado(n, false);
+
+    dist[origem] = 0;
+
+    // Fila de prioridade (min-heap) para armazenar {distância, vértice}
+    priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
+    
+    fila.push({0, origem});
+
+    while (!fila.empty()) {
+        int u = fila.top().second;
+        float dist_u = fila.top().first;
+        fila.pop();
+
+        // Se já visitamos este vértice, continuamos
+        if (visitado[u]) continue;
+        visitado[u] = true;
+
+        // Percorrer todos os possíveis vizinhos de 'u'
+        for (int v = 0; v < n; ++v) {
+            float peso = matrix[u][v];
+            
+            // Ignorar se não houver aresta (representada por INF)
+            if (peso == INF || u == v) continue;
+
+
+            if (dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+                fila.push({dist[v], v});
+            }
+        }
+    }
+
+    auto fim = high_resolution_clock::now(); 
+
+    duration<double> tempo_execucao = fim - inicio;
+
+    return tempo_execucao.count();
+}
 
 void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int destino) {
 
@@ -1119,183 +1300,4 @@ void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int 
 
 }
 
-double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
 
-    using namespace std::chrono;
-    auto inicio = high_resolution_clock::now();
-
-    int INF = 1e9;
-    int n = graph.size();
-    vector<float> dist(n, INF);
-    vector<bool> visitado(n, false); 
-
-    dist[origem] = 0;
-
-    priority_queue<pair<int, float>, vector<pair<int, float>>, greater<pair<int, float>>> fila;
-    
-    fila.push({origem, 0});
-
-    while (!fila.empty()) {
-        int u = fila.top().first;
-        float dist_u = fila.top().second;
-        fila.pop();
-
-        // Se já visitamos este vértice, continuamos
-        if (visitado[u]) continue;
-        visitado[u] = true;
-
-        // Para cada vizinho v de u
-        for (auto& vizinho : graph[u]) {
-            int v = vizinho.first;
-            float peso = vizinho.second;
-
-            // Relaxamento da aresta u -> v
-            if (dist[u] + peso < dist[v]) {
-                dist[v] = dist[u] + peso;
-                fila.push({v, dist[v] });
-            }
-        }
-    }
-
-    auto fim = high_resolution_clock::now(); // fim do algoritmo
-
-    duration<double> tempo_execucao = fim - inicio;
-
-    return tempo_execucao.count();
-
-}
-
-double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
-
-    using namespace std::chrono;
-    auto inicio = high_resolution_clock::now();
-
-    int INF = 1e9;
-    int n = graph.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
-
-    dist[origem] = 0; // Distância da origem é zero
-
-    for (int i = 0; i < n; ++i) {
-        // Encontrar o vértice não visitado com a menor distância
-        int u = -1;
-        for (int j = 0; j < n; ++j) {
-            if (!visitado[j] && (u == -1 || dist[j] < dist[u])) {
-                u = j;
-            }
-        }
-
-        if (dist[u] == INF) break;
-
-        visitado[u] = true;
-
-        // Atualiza as distâncias dos vizinhos
-        for (const auto& vizinho : graph[u]) {
-            int v = vizinho.first;
-            float peso = vizinho.second;
-
-            if (dist[u] + peso < dist[v]) {
-                dist[v] = dist[u] + peso;
-            }
-        }
-    }
-
-    auto fim = high_resolution_clock::now(); // fim do algoritmo
-
-    duration<double> tempo_execucao = fim - inicio;
-    
-    return tempo_execucao.count();
-}
-
-
-
-double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
-
-    using namespace std::chrono;
-    auto inicio = high_resolution_clock::now();
-    
-    int INF = 1e9;
-    int n = matrix.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
-
-    dist[origem] = 0; // Distância da origem é zero
-
-    for (int i = 0; i < n; ++i) {
-        // Encontrar o vértice não visitado com a menor distância
-        int u = -1;
-        for (int j = 0; j < n; ++j) {
-            if (!visitado[j] && (u == -1 || dist[j] < dist[u])) {
-                u = j;
-            }
-        }
-
-        // Se não há mais vértices alcançáveis, termina
-        if (dist[u] == INF) break;
-
-        visitado[u] = true;
-
-        // Atualiza as distâncias dos vizinhos de u
-        for (int v = 0; v < n; ++v) {
-            float peso = matrix[u][v];
-            if (peso > 0 && !visitado[v] && dist[u] + peso < dist[v]) {
-                dist[v] = dist[u] + peso;
-            }
-        }
-    }
-
-    auto fim = high_resolution_clock::now(); // fim do algoritmo
-
-    duration<double> tempo_execucao = fim - inicio;
-
-    return tempo_execucao.count();
-}
-
-double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
-
-    using namespace std::chrono;
-    auto inicio = high_resolution_clock::now();
-
-    float INF = 1e9;
-    int n = matrix.size();
-    vector<float> dist(n, INF);
-    vector<bool> visitado(n, false);
-
-    dist[origem] = 0;
-
-    // Fila de prioridade (min-heap) para armazenar {distância, vértice}
-    priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
-    
-    fila.push({0, origem});
-
-    while (!fila.empty()) {
-        int u = fila.top().second;
-        float dist_u = fila.top().first;
-        fila.pop();
-
-        // Se já visitamos este vértice, continuamos
-        if (visitado[u]) continue;
-        visitado[u] = true;
-
-        // Percorrer todos os possíveis vizinhos de 'u'
-        for (int v = 0; v < n; ++v) {
-            float peso = matrix[u][v];
-            
-            // Ignorar se não houver aresta (representada por INF)
-            if (peso == INF || u == v) continue;
-
-
-            if (dist[u] + peso < dist[v]) {
-                dist[v] = dist[u] + peso;
-                fila.push({dist[v], v});
-            }
-        }
-    }
-
-    auto fim = high_resolution_clock::now(); 
-
-    duration<double> tempo_execucao = fim - inicio;
-
-    return tempo_execucao.count();
-}
