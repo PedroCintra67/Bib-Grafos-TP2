@@ -1401,6 +1401,11 @@ vector<pair<int, string>> txt_to_dictionary(const string& nome_arquivo_grafo, co
 
 void Caminho_Minimo_Rede(const vector<vector<pair<int, float>>>& graph, string nome_origem, string nome_destino, const vector<pair<int,string>>& dict)  {
 
+     if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
+
     float INF = 1e9;
     int n = graph.size();
     vector<float> dist(n, INF);
