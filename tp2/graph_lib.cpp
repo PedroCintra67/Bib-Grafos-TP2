@@ -789,27 +789,37 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
 
     while (arquivo >> u >> v >> w) {
         
-        if(w < 0) {
-            Dijkstra = false;
-        }
-        
         pair<int,float> relacao;
         relacao.first = v; // vértice
         relacao.second = w; // peso da aresta
+
+        if(w < 0) {
+            pair<int, float> flag;
+            flag.first = -1;
+            flag.second = -1;
+            graph[0].push_back(flag);
+
+            // Essa parte coloca uma "flag" dentro de uma parte do grafo que não é utilizada: o vetor relacionado ao 0. Logo,
+            // se essa flag existir, o algoritmo de Dijkstra não será executada.
+        }
+
         graph[u].push_back(relacao);
         relacao.first = u; // vértice
         graph[v].push_back(relacao);
 
         }
 
-        arquivo.close();
-
     arquivo.close();
 
     return graph;
-    }
+}
 
 vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& graph, int origem) {
+
+    if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     int INF = 1e9;
     int n = graph.size();
@@ -846,6 +856,11 @@ vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& grap
 }
 
 vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph, int origem) {
+
+    if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     float INF = 1e9;
     int n = graph.size();
@@ -887,6 +902,11 @@ vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph,
 
 double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
 
+    if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
+
     using namespace std::chrono;
     auto inicio = high_resolution_clock::now();
 
@@ -926,11 +946,17 @@ double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,f
     duration<double> tempo_execucao = fim - inicio;
     
     return tempo_execucao.count();
+
 }
 
 
 
 double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
+
+    if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     using namespace std::chrono;
     auto inicio = high_resolution_clock::now();
@@ -978,6 +1004,11 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
 
 
 void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int origem, int destino)  {
+
+    if (graph[0][0].first == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     float INF = 1e9; // Alterado para float, já que o peso é float
     int n = graph.size();
@@ -1047,8 +1078,9 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo,
     vector<vector<float>> matrix(numVertices + 1, vector<float>(numVertices + 1, INF)); 
 
     while (arquivo >> u >> v >> w) {
+
         if(w < 0) {
-            Dijkstra = false;
+            matrix[0][0] = -1;
         }
         matrix[u][v] = w;  
         matrix[v][u] = w; 
@@ -1079,6 +1111,11 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo,
 }
 
 vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int origem) {
+
+    if (matrix[0][0] == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
     
     int INF = 1e9;
     int n = matrix.size();
@@ -1115,6 +1152,12 @@ vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int or
 
 
 vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int origem) {
+
+    if (matrix[0][0] == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
+
     float INF = 1e9;
     int n = matrix.size();
     vector<float> dist(n, INF);
@@ -1155,6 +1198,11 @@ vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int orig
 }
 
 double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
+
+    if (matrix[0][0] == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     using namespace std::chrono;
     auto inicio = high_resolution_clock::now();
@@ -1198,6 +1246,11 @@ double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& m
 
 
 double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
+
+    if (matrix[0][0] == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     using namespace std::chrono;
     auto inicio = high_resolution_clock::now();
@@ -1246,6 +1299,11 @@ double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& mat
 }
 
 void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int destino) {
+
+    if (matrix[0][0] == -1) {
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        return;
+    }
 
     float INF = 1e9; // Alterado para float, já que o peso é float
     int n = matrix.size();
@@ -1300,4 +1358,122 @@ void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int 
 
 }
 
+vector<pair<int, string>> txt_to_dictionary(const string& nome_arquivo_grafo, const string& nome_arquivo_dicionario) {
 
+    ifstream arquivo1(nome_arquivo_grafo);
+    if (!arquivo1.is_open()) {
+        throw runtime_error("Erro ao abrir o arquivo de entrada (grafo)!");
+    }
+    
+    int numVertices;
+    
+    // Ler o número de vértices
+    arquivo1 >> numVertices;
+
+    arquivo1.close();
+
+    ifstream arquivo2(nome_arquivo_dicionario);
+    if (!arquivo2.is_open()) {
+        throw runtime_error("Erro ao abrir o arquivo de entrada (dicionário)!");
+    }
+
+    vector<pair<int, string>> dict(numVertices + 1); // Mantemos o +1 caso haja id = 0
+
+    int id;
+    string nome;
+    string linha;
+
+    while (getline(arquivo2, linha)) {
+        size_t virgula_pos = linha.find(','); // Encontrar a posição da vírgula
+        if (virgula_pos != string::npos) {
+            id = stoi(linha.substr(0, virgula_pos)); // Extrair o ID
+            nome = linha.substr(virgula_pos + 1);    // Extrair o nome (após a vírgula)
+            if (id <= numVertices) {
+                dict[id] = make_pair(id, nome); // Preencher o vetor
+            }
+        }
+    }
+
+    arquivo2.close();
+
+    return dict;
+}
+
+void Caminho_Minimo_Rede(const vector<vector<pair<int, float>>>& graph, string nome_origem, string nome_destino, const vector<pair<int,string>>& dict)  {
+
+    float INF = 1e9;
+    int n = graph.size();
+    vector<float> dist(n, INF);
+    vector<bool> visitado(n, false);
+    vector<int> pai(n, -1);
+
+    int origem = -1, destino = -1;
+    for (const auto& entry : dict) {
+        if (entry.second == nome_origem) {
+            origem = entry.first;
+        }
+        if (entry.second == nome_destino) {
+            destino = entry.first;
+        }
+    }
+
+    if (origem == -1 || destino == -1) {
+        cout << "Origem ou destino não encontrado no dicionário!" << endl;
+        return;
+    }
+
+    dist[origem] = 0;
+
+    priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
+    fila.push({0, origem});
+
+    while (!fila.empty()) {
+        int u = fila.top().second;
+        fila.pop();
+
+        if (visitado[u]) continue;
+        visitado[u] = true;
+
+        for (auto& vizinho : graph[u]) {
+            int v = vizinho.first;
+            float peso = vizinho.second;
+
+            if (dist[u] + peso < dist[v]) {
+                dist[v] = dist[u] + peso;
+                fila.push({dist[v], v});
+                pai[v] = u;
+            }
+        }
+    }
+
+    if (pai[destino] == -1) {
+        cout << "Sem caminho possivel de " << nome_origem << " para " << nome_destino << endl;
+        return;
+    }
+
+    vector<int> caminho;
+    vector<string> caminho_nomes;
+    for (int i = destino; i != -1; i = pai[i]) {
+        caminho.push_back(i);
+    }
+    reverse(caminho.begin(), caminho.end());
+
+    // Convertendo IDs para nomes
+    for (int id : caminho) {
+        for (const auto& entry : dict) {
+            if (entry.first == id) {
+                caminho_nomes.push_back(entry.second);
+                break;
+            }
+        }
+    }
+
+    for (int i = 0; i < caminho_nomes.size(); i++) {
+        cout << caminho_nomes[i];
+        if (i != caminho_nomes.size() - 1) cout << " -> ";
+    }
+    cout << endl;
+
+    cout << "Custo do caminho: " << dist[destino] << "\n" << endl;
+    
+}
