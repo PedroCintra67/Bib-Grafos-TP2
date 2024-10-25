@@ -818,7 +818,7 @@ vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& grap
 
     if (graph[0][0].first == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     int INF = 1e9;
@@ -859,7 +859,7 @@ vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph,
 
     if (graph[0][0].first == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     float INF = 1e9;
@@ -904,7 +904,7 @@ double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,f
 
     if (graph[0][0].first == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     using namespace std::chrono;
@@ -955,7 +955,7 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
 
     if (graph[0][0].first == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     using namespace std::chrono;
@@ -1114,7 +1114,7 @@ vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int or
 
     if (matrix[0][0] == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
     
     int INF = 1e9;
@@ -1155,7 +1155,7 @@ vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int orig
 
     if (matrix[0][0] == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     float INF = 1e9;
@@ -1201,7 +1201,7 @@ double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& m
 
     if (matrix[0][0] == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     using namespace std::chrono;
@@ -1249,7 +1249,7 @@ double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& mat
 
     if (matrix[0][0] == -1) {
         cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
+        return {};
     }
 
     using namespace std::chrono;
