@@ -48,8 +48,8 @@ double BFS_tree_matrix_with_execution_time(const vector<vector<bool>>& matrix, i
 
 // Funções de receber entrada
 
-vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
-vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt");
+vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo);
+vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo);
 
 // Funções para percorrer o grafo (vetor de adjacência):
 
