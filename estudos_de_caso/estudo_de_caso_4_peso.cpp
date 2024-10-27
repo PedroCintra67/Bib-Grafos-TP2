@@ -11,7 +11,7 @@ int main() {
     string nome_arquivo = "grafo_W_4.txt";
     string saida_arquivo = "estudo_de_caso_4_peso.txt";
     
-    vector<vector<pair<int, float>>> grafo_4_vector = txt_to_weight_adjacency_vector(nome_arquivo, "resultado_w.txt");
+    vector<vector<pair<int, float>>> grafo_4_vector = txt_to_weight_adjacency_vector(nome_arquivo);
 
     Caminho_Minimo_Vector(grafo_4_vector, 10, 20);
     Caminho_Minimo_Vector(grafo_4_vector, 10, 30);
@@ -52,7 +52,7 @@ int main() {
 
     grafo_4_vector = vector<vector<pair<int, float>>>();
 
-    vector<vector<float>> grafo_4_matrix = txt_to_weight_adjacency_matrix(nome_arquivo, "resultado_w_matrix.txt");
+    vector<vector<float>> grafo_4_matrix = txt_to_weight_adjacency_matrix(nome_arquivo);
 
     // Teste de tempo do Dijkstra em matrizes implementado com heap:
 
