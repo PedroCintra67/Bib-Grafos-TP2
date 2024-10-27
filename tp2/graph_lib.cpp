@@ -770,7 +770,7 @@ void Distancia_matrix(const vector<vector<bool>>& matrix, int origem, int destin
 
 // TP2:
 
-vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt") {
+vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& nome_arquivo) {
 
     ifstream arquivo(nome_arquivo);
     if (!arquivo.is_open()) {
@@ -977,7 +977,6 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
         float dist_u = fila.top().second;
         fila.pop();
 
-        // Se já visitamos este vértice, continuamos
         if (visitado[u]) continue;
         visitado[u] = true;
 
@@ -986,7 +985,6 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
             int v = vizinho.first;
             float peso = vizinho.second;
 
-            // Relaxamento da aresta u -> v
             if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
                 fila.push({v, dist[v] });
@@ -1037,7 +1035,7 @@ void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int or
 
             if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
-                fila.push({dist[v], v}); // A fila deve priorizar a distância
+                fila.push({dist[v], v}); 
                 pai[v] = u;
             }
         }
@@ -1059,7 +1057,7 @@ void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int or
 }
 
 
-vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo, string nome_do_arquivo_de_saida_principal = "resultados.txt") {
+vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo) {
 
     ifstream arquivo(nome_arquivo);
     if (!arquivo.is_open()) {
@@ -1081,6 +1079,8 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo,
 
         if(w < 0) {
             matrix[0][0] = -1;
+            // Essa parte coloca uma "flag" dentro de uma parte do grafo que não é utilizada: o vetor relacionado ao 0. Logo,
+            // se essa flag existir, o algoritmo de Dijkstra não será executada.
         }
         matrix[u][v] = w;  
         matrix[v][u] = w; 
@@ -1088,24 +1088,6 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo,
     }
 
     arquivo.close();
-
-    // Gravar os resultados no arquivo de saída
-    
-    ofstream arquivo_de_saida(nome_do_arquivo_de_saida_principal, std::ios::app);
-
-    if (arquivo_de_saida.is_open()) {
-        arquivo_de_saida << "Número de vértices: " << numVertices << endl;
-        arquivo_de_saida << "Número de arestas: " << numArestas << endl;
-
-        arquivo_de_saida.close(); 
-        cout << "Resultados gravados no arquivo " << nome_do_arquivo_de_saida_principal << endl;
-    } 
-    else {
-        cout << "Erro ao abrir o arquivo de resultados!" << endl;
-    }
-
-
-    arquivo_de_saida.close();
 
     return matrix;
 }
