@@ -31,7 +31,7 @@ int main() {
     vector<vector<int>> graph = readGraph(nome_arquivo);
     map<int, string> vertexNames = readVertexNames(nome_arquivo2);
     
-    vector<vector<pair<int, float>>> grafo_rede_vector = txt_to_weight_adjacency_vector(nome_arquivo, "resultado_rede.txt");
+    vector<vector<pair<int, float>>> grafo_rede_vector = txt_to_weight_adjacency_vector(nome_arquivo);
 
     ofstream arquivo_de_saida_2(saida_arquivo, std::ios::app);
 
