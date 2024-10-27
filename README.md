@@ -81,11 +81,46 @@ Ex.:
 `BFS_tree_matrix_with_execution_time(grafo_teste2, 3, "arvoreBFS_grafo_teste.txt")`;
 ```
 
-## Funções para grafos com pesos
+# **Funções para grafos com pesos**
+
+# Recebendo o grafo
+
+Foram criadas 2 funções diferentes que recebem a string correspondente ao nome do arquivo de texto de entrada (ex.: `"grafo_W_teste.txt"`) e retornam o grafo em uma das duas representações pedidas (vetor de adjacência ou matriz de adjacência).
+
+Ex.:
+```
+string nome_arquivo = "grafo_W_teste.txt";
+vector<vector<pair<int, float>>> grafo_teste_vector = txt_to_weight_adjacency_vector(nome_arquivo);
+vector<vector<float>> grafo_teste_matrix = txt_to_weight_adjacency_matrix(nome_arquivo);
+```
 
 # Dijkstra
 
+Essa função retorna um vetor contendo a distância da origem para todos os vértices do grafo. Foram criadas 4 funções, para comtemplar as duas representações e as duas formas de implementação de Dijkstra (vetor e heap).
+
+Para grafos representados como vetor:
+```
+vector<float> distancias = Dijkstra_Vector_Vector(grafo_teste_vector, 2);
+vector<float> distancias = Dijkstra_Vector_Heap(grafo_teste_vector, 2);
+```
+
+E para matrizes: 
+
+```
+vector<float> distancias = Dijkstra_Matrix_Vector(grafo_teste_matrix, 2);
+vector<float> distancias = Dijkstra_Matrix_Heap(grafo_teste_matrix, 2);
+```
+
+
 # Caminho_Minimo
+
+Essa função imprime no terminal o caminho mínimo entre dois vértices, bem como o comprimento do caminho. 
+
+Ex.:
+```
+Caminho_Minimo_Vector(grafo_teste_vector, 12, 14);
+Caminho_Minimo_Matrix(grafo_teste_matrix, 1, 6);
+```
 
 # Funções para cálculo de tempo de execução (grafo com pesos):
 
