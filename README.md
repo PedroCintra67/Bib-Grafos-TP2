@@ -124,3 +124,25 @@ Caminho_Minimo_Matrix(grafo_teste_matrix, 1, 6);
 
 # Funções para cálculo de tempo de execução (grafo com pesos):
 
+Essas funções retornam um número (tipo double): o tempo para executar o algoritmo de Dijkstra na representação desejada e com a estrutura de dados auxiliar desejada.
+
+```
+double tempo_de_execucao_vector_com_heap = Dijkstra_Vector_Heap_With_Execution_Time(grafo_teste_vector, 4);
+double tempo_de_execucao_matriz_com_heap = Dijkstra_Matrix_Heap_With_Execution_Time(grafo_teste_matrix, 2);
+```
+
+# Funções para a rede de colaboração:
+
+A função `txt_to_dictionary` recebe o grafo (da mesma forma que tem sido recebido até aqui) e um "dicionário" que relaciona o número de um vértice a uma string. Ela retorna um vetor de pair, relacionando o número a respectiva string.
+
+A função `Caminho_Minimo_Rede` recebe o gráfico, dois vértices (origem e destino, representados na forma de string que está no dicionário) e o dicionário. Ela imprime o caminho mínimo, bem como seu comprimento, no terminal.
+
+```
+vector<pair<int, string>> dicionario = txt_to_dictionary("rede_de_colaboracao.txt", "rede_de_colaboracao_vertices.txt");
+Caminho_Minimo_Rede(grafo_rede, "Daniel R. FIgueiredo", "Alan M. Turing" , dicionario);
+```
+
+
+
+
+
