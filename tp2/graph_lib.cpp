@@ -791,8 +791,6 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
     flag.second = 0;
     graph[0].push_back(flag);
 
-
-
     while (arquivo >> u >> v >> w) {
         
         pair<int,float> relacao;
@@ -802,6 +800,8 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
         if(w < 0) {
             flag.first = -1;
             flag.second = -1;
+            graph[0].clear();
+            graph[0].push_back(flag);
 
             // Essa parte coloca uma "flag" dentro de uma parte do grafo que não é utilizada: o vetor relacionado ao 0. Logo,
             // se essa flag existir, o algoritmo de Dijkstra não será executada.
@@ -823,7 +823,7 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
 vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& graph, int origem) {
 
     if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -864,7 +864,7 @@ vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& grap
 vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph, int origem) {
 
     if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -908,7 +908,7 @@ vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph,
 double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
 
     if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -959,7 +959,7 @@ double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,f
 double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,float>>>& graph, int origem) {
 
     if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -1009,7 +1009,7 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
 void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int origem, int destino)  {
 
         if (graph[0][0].first == -1) {
-            cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+            cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
             return;
         }
 
@@ -1101,7 +1101,7 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo)
 vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int origem) {
 
     if (matrix[0][0] == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
     
@@ -1142,7 +1142,7 @@ vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int or
 vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int origem) {
 
     if (matrix[0][0] == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -1187,7 +1187,7 @@ vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int orig
 double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
 
     if (matrix[0][0] == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -1235,7 +1235,7 @@ double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& m
 double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& matrix, int origem) {
 
     if (matrix[0][0] == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return {};
     }
 
@@ -1289,7 +1289,7 @@ double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& mat
 void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int destino) {
 
     if (matrix[0][0] == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return;
     }
 
@@ -1388,7 +1388,7 @@ vector<pair<int, string>> txt_to_dictionary(const string& nome_arquivo_grafo, co
 void Caminho_Minimo_Rede(const vector<vector<pair<int, float>>>& graph, string nome_origem, string nome_destino, const vector<pair<int,string>>& dict)  {
 
      if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra nao garante caminho minimo nesse caso.";
         return;
     }
 
