@@ -790,8 +790,8 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
     while (arquivo >> u >> v >> w) {
         
         pair<int,float> relacao;
-        relacao.first = v; // vértice
-        relacao.second = w; // peso da aresta
+        relacao.first = v; 
+        relacao.second = w; 
 
         if(w < 0) {
             pair<int, float> flag;
@@ -804,7 +804,7 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
         }
 
         graph[u].push_back(relacao);
-        relacao.first = u; // vértice
+        relacao.first = u; 
         graph[v].push_back(relacao);
 
         }
@@ -823,8 +823,8 @@ vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& grap
 
     int INF = 1e9;
     int n = graph.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+    vector<float> dist(n, INF); // Distâncias parciais
+    vector<bool> visitado(n, false); 
 
     dist[origem] = 0; // Distância da origem é zero
 
@@ -887,7 +887,6 @@ vector<float> Dijkstra_Vector_Heap(const vector<vector<pair<int,float>>>& graph,
             int v = vizinho.first;
             float peso = vizinho.second;
 
-            // Relaxamento da aresta u -> v
             if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
                 fila.push({v, dist[v] });
@@ -912,10 +911,10 @@ double Dijkstra_Vector_Vector_With_Execution_Time(const vector<vector<pair<int,f
 
     int INF = 1e9;
     int n = graph.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+    vector<float> dist(n, INF); // Distâncias parciais
+    vector<bool> visitado(n, false); 
 
-    dist[origem] = 0; // Distância da origem é zero
+    dist[origem] = 0; 
 
     for (int i = 0; i < n; ++i) {
         // Encontrar o vértice não visitado com a menor distância
@@ -1008,7 +1007,7 @@ void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int or
         return;
     }
 
-    float INF = 1e9; // Alterado para float, já que o peso é float
+    float INF = 1e9; 
     int n = graph.size();
     vector<float> dist(n, INF);
     vector<bool> visitado(n, false);
@@ -1016,7 +1015,8 @@ void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int or
 
     dist[origem] = 0;
 
-    // A priority_queue agora armazena {distância, vértice}
+    // Fila de prioridade (min-heap) para armazenar {distância, vértice}
+
     priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
 
     fila.push({0, origem});
@@ -1101,10 +1101,10 @@ vector<float> Dijkstra_Matrix_Vector(const vector<vector<float>>& matrix, int or
     
     int INF = 1e9;
     int n = matrix.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+    vector<float> dist(n, INF); // Distâncias parciais
+    vector<bool> visitado(n, false); 
 
-    dist[origem] = 0; // Distância da origem é zero
+    dist[origem] = 0; 
 
     for (int i = 0; i < n; ++i) {
         // Encontrar o vértice não visitado com a menor distância
@@ -1161,14 +1161,13 @@ vector<float> Dijkstra_Matrix_Heap(const vector<vector<float>>& matrix, int orig
         if (visitado[u]) continue;
         visitado[u] = true;
 
-        // Percorrer todos os possíveis vizinhos de 'u'
+        // Percorrendo todos os vizinhos de u
         for (int v = 0; v < n; ++v) {
             float peso = matrix[u][v];
             
-            // Ignorar se não houver aresta (representada por INF)
+            // Ignorar se não houver aresta
             if (peso == INF || u == v) continue;
 
-            // Relaxamento da aresta u -> v
             if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
                 fila.push({dist[v], v});
@@ -1191,10 +1190,10 @@ double Dijkstra_Matrix_Vector_With_Execution_Time(const vector<vector<float>>& m
     
     int INF = 1e9;
     int n = matrix.size();
-    vector<float> dist(n, INF); // Vetor de distâncias parciais
-    vector<bool> visitado(n, false); // Vetor para marcar vértices visitados
+    vector<float> dist(n, INF); // Distâncias parciais
+    vector<bool> visitado(n, false); 
 
-    dist[origem] = 0; // Distância da origem é zero
+    dist[origem] = 0; 
 
     for (int i = 0; i < n; ++i) {
         // Encontrar o vértice não visitado com a menor distância
@@ -1245,6 +1244,7 @@ double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& mat
     dist[origem] = 0;
 
     // Fila de prioridade (min-heap) para armazenar {distância, vértice}
+
     priority_queue<pair<float, int>, vector<pair<float, int>>, greater<pair<float, int>>> fila;
     
     fila.push({0, origem});
@@ -1258,11 +1258,11 @@ double Dijkstra_Matrix_Heap_With_Execution_Time(const vector<vector<float>>& mat
         if (visitado[u]) continue;
         visitado[u] = true;
 
-        // Percorrer todos os possíveis vizinhos de 'u'
+        // Percorrendo todos os vizinhos de u
         for (int v = 0; v < n; ++v) {
             float peso = matrix[u][v];
             
-            // Ignorar se não houver aresta (representada por INF)
+            // Ignorar se não houver aresta 
             if (peso == INF || u == v) continue;
 
 
@@ -1287,7 +1287,7 @@ void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int 
         return;
     }
 
-    float INF = 1e9; // Alterado para float, já que o peso é float
+    float INF = 1e9; 
     int n = matrix.size();
     vector<float> dist(n, INF);
     vector<bool> visitado(n, false);
@@ -1308,14 +1308,13 @@ void Caminho_Minimo_Matrix(const vector<vector<float>>& matrix, int origem, int 
         if (visitado[u]) continue;
         visitado[u] = true;
 
-        // Percorrer todos os possíveis vizinhos de 'u'
+        // Percorrendo todos os vizinhos de u
         for (int v = 0; v < n; ++v) {
             float peso = matrix[u][v];
 
-            // Ignorar se não houver aresta (representada por INF)
+            // Ignorar se não houver aresta 
             if (peso == INF || u == v) continue;
 
-            // Relaxamento da aresta u -> v
             if (dist[u] + peso < dist[v]) {
                 dist[v] = dist[u] + peso;
                 fila.push({dist[v], v});
@@ -1349,7 +1348,6 @@ vector<pair<int, string>> txt_to_dictionary(const string& nome_arquivo_grafo, co
     
     int numVertices;
     
-    // Ler o número de vértices
     arquivo1 >> numVertices;
 
     arquivo1.close();
@@ -1359,19 +1357,19 @@ vector<pair<int, string>> txt_to_dictionary(const string& nome_arquivo_grafo, co
         throw runtime_error("Erro ao abrir o arquivo de entrada (dicionário)!");
     }
 
-    vector<pair<int, string>> dict(numVertices + 1); // Mantemos o +1 caso haja id = 0
+    vector<pair<int, string>> dict(numVertices + 1); 
 
     int id;
     string nome;
     string linha;
 
     while (getline(arquivo2, linha)) {
-        size_t virgula_pos = linha.find(','); // Encontrar a posição da vírgula
+        size_t virgula_pos = linha.find(','); 
         if (virgula_pos != string::npos) {
-            id = stoi(linha.substr(0, virgula_pos)); // Extrair o ID
-            nome = linha.substr(virgula_pos + 1);    // Extrair o nome (após a vírgula)
+            id = stoi(linha.substr(0, virgula_pos)); 
+            nome = linha.substr(virgula_pos + 1);    
             if (id <= numVertices) {
-                dict[id] = make_pair(id, nome); // Preencher o vetor
+                dict[id] = make_pair(id, nome); 
             }
         }
     }
