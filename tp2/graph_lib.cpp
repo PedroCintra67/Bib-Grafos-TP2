@@ -777,15 +777,21 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
         throw runtime_error("Erro ao abrir o arquivo de entrada!");
     }
     
-    int numVertices, numArestas, u, v, degreeSum;
+    int numVertices, u, v;
     float w;
     int INF = 1e9;
-    bool Dijkstra = true;
     
     // Ler o número de vértices
     arquivo >> numVertices;
 
     vector<vector<pair<int, float>>> graph(numVertices + 1);
+
+    pair<int, float> flag;
+    flag.first = 0;
+    flag.second = 0;
+    graph[0].push_back(flag);
+
+
 
     while (arquivo >> u >> v >> w) {
         
@@ -794,10 +800,8 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
         relacao.second = w; 
 
         if(w < 0) {
-            pair<int, float> flag;
             flag.first = -1;
             flag.second = -1;
-            graph[0].push_back(flag);
 
             // Essa parte coloca uma "flag" dentro de uma parte do grafo que não é utilizada: o vetor relacionado ao 0. Logo,
             // se essa flag existir, o algoritmo de Dijkstra não será executada.
@@ -809,10 +813,12 @@ vector<vector<pair<int, float>>> txt_to_weight_adjacency_vector(const string& no
 
         }
 
-    arquivo.close();
+        arquivo.close();
 
     return graph;
 }
+
+
 
 vector<float> Dijkstra_Vector_Vector(const vector<vector<pair<int,float>>>& graph, int origem) {
 
@@ -1002,10 +1008,10 @@ double Dijkstra_Vector_Heap_With_Execution_Time(const vector<vector<pair<int,flo
 
 void Caminho_Minimo_Vector(const vector<vector<pair<int, float>>>& graph, int origem, int destino)  {
 
-    if (graph[0][0].first == -1) {
-        cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
-        return;
-    }
+        if (graph[0][0].first == -1) {
+            cout << "O grafo possui pesos negativos! O algoritmo de Dijkstra não garante caminho mínimo nesse caso.";
+            return;
+        }
 
     float INF = 1e9; 
     int n = graph.size();
@@ -1064,7 +1070,7 @@ vector<vector<float>> txt_to_weight_adjacency_matrix(const string& nome_arquivo)
         throw runtime_error("Erro ao abrir o arquivo de entrada!");
     }
 
-    int numVertices, numArestas, u, v, degreeSum;
+    int numVertices, u, v;
     float w;
     int INF = 1e9;
     bool Dijkstra = true;
