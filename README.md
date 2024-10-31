@@ -129,6 +129,8 @@ Essas funções retornam um número (tipo double): o tempo para executar o algor
 ```
 double tempo_de_execucao_vector_com_heap = Dijkstra_Vector_Heap_With_Execution_Time(grafo_teste_vector, 4);
 double tempo_de_execucao_matriz_com_heap = Dijkstra_Matrix_Heap_With_Execution_Time(grafo_teste_matrix, 2);
+double tempo_de_execucao_vector_com_vector = Dijkstra_Vector_Vector_With_Execution_Time(grafo_teste_vector, 6);
+double tempo_de_execucao_matriz_com_vector = Dijkstra_Matrix_Vector_With_Execution_Time(grafo_teste_matrix, 9);
 ```
 
 # Funções para a rede de colaboração:
